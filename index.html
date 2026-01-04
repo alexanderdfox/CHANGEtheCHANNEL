@@ -13,7 +13,7 @@
 
 	body {
 		font-family: 'Courier New', monospace;
-		background: #000;
+		background: #1a1a1a;
 		color: #fff;
 		overflow: hidden;
 		height: 100vh;
@@ -21,16 +21,45 @@
 		position: relative;
 	}
 
-	.warning {
-		position: absolute;
-		top: 10px;
-		left: 10px;
-		z-index: 10000;
-		background: rgba(255, 0, 0, 0.9);
-		padding: 10px;
-		border: 3px solid #fff;
-		font-size: 12px;
-		max-width: 300px;
+	/* Landing Page Styles */
+	.landing-page {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(135deg, #1a0000, #000000);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		z-index: 20000;
+		padding: 40px;
+		text-align: center;
+	}
+
+	.landing-page.hidden {
+		display: none;
+	}
+
+	.warning-box {
+		background: rgba(255, 0, 0, 0.95);
+		border: 5px solid #fff;
+		border-radius: 20px;
+		padding: 40px;
+		max-width: 800px;
+		box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
+		animation: pulse-warning 1s infinite;
+	}
+
+	@keyframes pulse-warning {
+		0%, 100% { transform: scale(1); box-shadow: 0 0 50px rgba(255, 0, 0, 0.8); }
+		50% { transform: scale(1.02); box-shadow: 0 0 80px rgba(255, 0, 0, 1); }
+	}
+
+	.warning-icon {
+		font-size: 80px;
+		margin-bottom: 20px;
 		animation: flash 0.5s infinite;
 	}
 
@@ -39,366 +68,822 @@
 		50% { opacity: 0.3; }
 	}
 
-	.tv-screen {
-		width: 100%;
-		height: 100%;
+	.warning-title {
+		font-size: 48px;
+		font-weight: bold;
+		margin-bottom: 30px;
+		text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+	}
+
+	.warning-text {
+		font-size: 24px;
+		line-height: 1.6;
+		margin-bottom: 40px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+	}
+
+	.warning-details {
+		font-size: 18px;
+		line-height: 1.5;
+		margin-bottom: 40px;
+		opacity: 0.9;
+	}
+
+	.button-container {
+		display: flex;
+		gap: 30px;
+		justify-content: center;
+		margin-top: 30px;
+	}
+
+	.warning-button {
+		padding: 20px 50px;
+		font-size: 24px;
+		font-weight: bold;
+		border: 4px solid #fff;
+		border-radius: 10px;
+		cursor: pointer;
+		font-family: 'Courier New', monospace;
+		transition: all 0.3s;
+		text-transform: uppercase;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+	}
+
+	.warning-button.continue {
+		background: #0f0;
+		color: #000;
+	}
+
+	.warning-button.continue:hover {
+		background: #0a0;
+		transform: scale(1.05);
+		box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
+	}
+
+	.warning-button.exit {
+		background: #f00;
+		color: #fff;
+	}
+
+	.warning-button.exit:hover {
+		background: #a00;
+		transform: scale(1.05);
+		box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+	}
+
+	.warning-button:active {
+		transform: scale(0.95);
+	}
+
+	/* Main App Styles */
+	.main-app {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		gap: 40px;
+		height: 100vh;
+		width: 100vw;
+	}
+
+	.main-app.hidden {
+		display: none;
+	}
+
+	.warning {
+		position: absolute;
+		top: 10px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 10000;
+		background: rgba(255, 0, 0, 0.9);
+		padding: 10px 20px;
+		border: 3px solid #fff;
+		font-size: 12px;
+		text-align: center;
+		animation: flash 0.5s infinite;
+	}
+
+	.tv-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+	}
+
+	.tv-box {
+		width: 300px;
+		height: 120px;
+		background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+		border: 3px solid #444;
+		border-radius: 8px;
+		padding: 15px;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.tv-box-label {
+		font-size: 14px;
+		color: #888;
+		text-align: center;
+		margin-bottom: 10px;
+	}
+
+	.tv-box-display {
+		background: #000;
+		border: 2px solid #333;
+		padding: 10px;
+		text-align: center;
+		font-size: 24px;
+		font-weight: bold;
+		color: #0f0;
+		text-shadow: 0 0 10px #0f0;
+		font-family: 'Courier New', monospace;
+		min-height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.tv-box-leds {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 10px;
+	}
+
+	.led {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #333;
+		box-shadow: 0 0 5px currentColor;
+	}
+
+	.led.power { background: #0f0; color: #0f0; }
+	.led.signal { background: #ff0; color: #ff0; }
+	.led.error { background: #f00; color: #f00; }
+
+	.tv-screen {
+		width: 800px;
+		height: 600px;
 		position: relative;
 		overflow: hidden;
+		background: #000;
+		border: 10px solid #333;
+		border-radius: 8px;
+		box-shadow: 0 0 50px rgba(0,0,0,0.8);
+	}
+
+	.channel-iframe {
+		width: 100%;
+		height: 100%;
+		border: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.channel-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		z-index: 10;
+		pointer-events: none;
+		background: transparent;
 	}
 
 	.channel-display {
 		font-size: 120px;
 		font-weight: bold;
-		text-shadow: 0 0 20px currentColor;
-		z-index: 10;
-		position: relative;
+		text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
 		transition: none;
+		background: rgba(0, 0, 0, 0.5);
+		padding: 20px 40px;
+		border-radius: 20px;
 	}
 
 	.channel-name {
 		font-size: 40px;
 		margin-top: 20px;
 		text-align: center;
-		z-index: 10;
-		position: relative;
+		background: rgba(0, 0, 0, 0.7);
+		padding: 10px 20px;
+		border-radius: 10px;
 	}
 
-	.controls {
-		position: absolute;
-		bottom: 20px;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 1000;
-		display: flex;
-		gap: 10px;
-	}
-
-	button {
-		padding: 15px 30px;
-		font-size: 18px;
-		background: rgba(255, 255, 255, 0.2);
-		border: 2px solid #fff;
-		color: #fff;
-		cursor: pointer;
-		font-family: 'Courier New', monospace;
-		backdrop-filter: blur(5px);
-	}
-
-	button:hover {
-		background: rgba(255, 255, 255, 0.4);
-	}
-
-	.pattern-overlay {
+	.loading-screen {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
-		opacity: 0.3;
-		pointer-events: none;
+		background: #000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 20;
+		color: #0f0;
+		font-size: 48px;
+		font-weight: bold;
+		text-shadow: 0 0 20px #0f0;
 	}
 
-	.spiral {
+	.noise-overlay {
 		position: absolute;
-		width: 200%;
-		height: 200%;
-		top: -50%;
-		left: -50%;
-		background: conic-gradient(from 0deg, 
-			#ff0000, #00ff00, #0000ff, #ffff00, #ff00ff, #00ffff, #ff0000);
-		animation: spin 0.1s linear infinite;
-	}
-
-	@keyframes spin {
-		from { transform: rotate(0deg); }
-		to { transform: rotate(360deg); }
-	}
-
-	.static {
-		position: absolute;
+		top: 0;
+		left: 0;
 		width: 100%;
 		height: 100%;
+		z-index: 15;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.1s;
+	}
+
+	.noise-overlay.active {
+		opacity: 1;
+	}
+
+	.tv-static {
 		background-image: 
-			repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px),
-			repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px);
-		opacity: 0.5;
+			repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.1) 1px, rgba(255,255,255,0.1) 2px),
+			repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.1) 1px, rgba(255,255,255,0.1) 2px);
+		background-size: 2px 2px;
 		animation: static-flicker 0.05s infinite;
 	}
 
-	@keyframes static-flicker {
+	.digital-noise {
+		background: 
+			radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+			radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+			radial-gradient(circle at 40% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+		background-size: 200% 200%;
+		animation: noise-shift 0.1s infinite;
+	}
+
+	@keyframes noise-shift {
+		0% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+		25% { background-position: 100% 0%, 0% 100%, 50% 50%; }
+		50% { background-position: 100% 100%, 0% 0%, 50% 50%; }
+		75% { background-position: 0% 100%, 100% 0%, 50% 50%; }
+		100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+	}
+
+	.glitch-noise {
+		background: 
+			linear-gradient(90deg, transparent 0%, rgba(255,0,0,0.1) 25%, transparent 50%, rgba(0,255,0,0.1) 75%, transparent 100%),
+			linear-gradient(0deg, transparent 0%, rgba(0,0,255,0.1) 25%, transparent 50%, rgba(255,255,0,0.1) 75%, transparent 100%);
+		background-size: 100px 100px, 100px 100px;
+		animation: glitch-move 0.2s infinite;
+	}
+
+	@keyframes glitch-move {
+		0% { background-position: 0% 0%, 0% 0%; }
+		25% { background-position: 10% 10%, -10% -10%; }
+		50% { background-position: -10% 10%, 10% -10%; }
+		75% { background-position: 10% -10%, -10% 10%; }
+		100% { background-position: 0% 0%, 0% 0%; }
+	}
+
+	.pixel-noise {
+		background-image: 
+			repeating-linear-gradient(0deg, 
+				rgba(255,255,255,0.05) 0px, 
+				rgba(0,0,0,0.05) 1px, 
+				rgba(255,255,255,0.05) 2px);
+		background-size: 3px 3px;
+		animation: pixel-flicker 0.03s infinite;
+	}
+
+	@keyframes pixel-flicker {
 		0%, 100% { opacity: 0.3; }
 		50% { opacity: 0.8; }
 	}
 
-	.circles {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-	}
-
-	.circle {
-		position: absolute;
-		border-radius: 50%;
-		border: 10px solid;
-		animation: pulse 0.2s infinite;
-	}
-
-	@keyframes pulse {
-		0%, 100% { transform: scale(1); opacity: 1; }
-		50% { transform: scale(1.5); opacity: 0.5; }
-	}
-
-	.stripes {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background: repeating-linear-gradient(
-			0deg,
-			#ff0000 0px,
-			#ff0000 20px,
-			#0000ff 20px,
-			#0000ff 40px
-		);
-		animation: stripe-move 0.1s linear infinite;
-	}
-
-	@keyframes stripe-move {
-		from { transform: translateY(0); }
-		to { transform: translateY(40px); }
-	}
-
-	.grid {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background-image: 
-			linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
-		background-size: 50px 50px;
-		animation: grid-shift 0.2s infinite;
-	}
-
-	@keyframes grid-shift {
-		0% { transform: translate(0, 0); }
-		25% { transform: translate(10px, 10px); }
-		50% { transform: translate(-10px, 10px); }
-		75% { transform: translate(-10px, -10px); }
-		100% { transform: translate(10px, -10px); }
-	}
-
-	.tunnel {
-		position: absolute;
-		width: 200%;
-		height: 200%;
-		top: -50%;
-		left: -50%;
+	.scanline-noise {
 		background: 
-			radial-gradient(circle at center, transparent 0%, transparent 30%, #ff00ff 50%, transparent 70%);
-		animation: tunnel-spin 0.15s linear infinite;
+			repeating-linear-gradient(0deg, 
+				transparent 0px, 
+				transparent 2px, 
+				rgba(255,255,255,0.03) 2px, 
+				rgba(255,255,255,0.03) 4px);
+		animation: scanline-move 0.1s linear infinite;
 	}
 
-	@keyframes tunnel-spin {
-		from { transform: rotate(0deg) scale(1); }
-		to { transform: rotate(360deg) scale(1.2); }
+	@keyframes scanline-move {
+		from { transform: translateY(0); }
+		to { transform: translateY(4px); }
 	}
 
-	.oscillation {
-		position: absolute;
+	.color-noise {
+		background: 
+			radial-gradient(circle, rgba(255,0,0,0.1) 0%, transparent 50%),
+			radial-gradient(circle, rgba(0,255,0,0.1) 0%, transparent 50%),
+			radial-gradient(circle, rgba(0,0,255,0.1) 0%, transparent 50%);
+		background-size: 50px 50px;
+		background-position: 0% 0%, 33% 33%, 66% 66%;
+		animation: color-shift 0.15s infinite;
+	}
+
+	@keyframes color-shift {
+		0% { background-position: 0% 0%, 33% 33%, 66% 66%; }
+		33% { background-position: 100% 0%, 0% 33%, 33% 100%; }
+		66% { background-position: 0% 100%, 100% 33%, 0% 0%; }
+		100% { background-position: 0% 0%, 33% 33%, 66% 66%; }
+	}
+
+	.remote-control {
+		width: 280px;
+		background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+		border: 3px solid #444;
+		border-radius: 20px;
+		padding: 25px;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+	}
+
+	.remote-label {
+		text-align: center;
+		font-size: 14px;
+		color: #888;
+		margin-bottom: 10px;
+	}
+
+	.remote-section {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.remote-row {
+		display: flex;
+		gap: 8px;
+		justify-content: center;
+	}
+
+	.remote-button {
+		width: 50px;
+		height: 50px;
+		border: 2px solid #555;
+		border-radius: 8px;
+		background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+		color: #fff;
+		font-size: 18px;
+		font-weight: bold;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: 'Courier New', monospace;
+		transition: all 0.1s;
+		box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+	}
+
+	.remote-button:hover {
+		background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
+		border-color: #777;
+		transform: scale(1.05);
+	}
+
+	.remote-button:active {
+		transform: scale(0.95);
+		box-shadow: 0 0 15px rgba(255,255,255,0.3);
+	}
+
+	.remote-button.channel-up,
+	.remote-button.channel-down {
 		width: 100%;
-		height: 100%;
-		background: linear-gradient(90deg, 
-			#ff0000 0%, #00ff00 25%, #0000ff 50%, #ffff00 75%, #ff0000 100%);
-		background-size: 200% 100%;
-		animation: oscillate 0.1s linear infinite;
+		height: 45px;
+		font-size: 16px;
 	}
 
-	@keyframes oscillate {
-		0% { background-position: 0% 0%; }
-		100% { background-position: 200% 0%; }
+	.remote-button.volume-up,
+	.remote-button.volume-down {
+		width: 100%;
+		height: 45px;
+		font-size: 16px;
 	}
 
-	.channel-info {
-		position: absolute;
-		top: 50px;
-		right: 50px;
-		font-size: 24px;
-		z-index: 100;
-		background: rgba(0, 0, 0, 0.7);
-		padding: 15px;
-		border: 2px solid #fff;
+	.remote-button.number {
+		font-size: 20px;
 	}
 
-	.signal-bar {
-		width: 200px;
-		height: 20px;
+	.volume-display {
+		text-align: center;
+		font-size: 14px;
+		color: #aaa;
+		margin-top: 5px;
+	}
+
+	.volume-bar {
+		width: 100%;
+		height: 8px;
 		background: #333;
-		border: 2px solid #fff;
-		margin-top: 10px;
-		position: relative;
+		border-radius: 4px;
+		margin-top: 5px;
 		overflow: hidden;
 	}
 
-	.signal-fill {
+	.volume-fill {
 		height: 100%;
-		background: linear-gradient(90deg, #0f0, #0f0, #ff0, #f00);
-		width: 0%;
-		animation: signal-flicker 0.2s infinite;
-	}
-
-	@keyframes signal-flicker {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0.3; }
+		background: linear-gradient(90deg, #0f0, #ff0, #f00);
+		width: 50%;
+		transition: width 0.1s;
 	}
 </style>
 </head>
 <body>
 
-<div class="warning">
-	⚠️ EPILEPSY WARNING: This content contains rapid flashing lights, color changes, and visual effects that may trigger seizures in individuals with photosensitive epilepsy. Viewer discretion is advised.
-</div>
-
-<div class="tv-screen" id="tvScreen">
-	<div class="channel-display" id="channelDisplay">00</div>
-	<div class="channel-name" id="channelName">STATIC</div>
-	<div class="channel-info">
-		<div>CH: <span id="channelNum">00</span></div>
-		<div class="signal-bar">
-			<div class="signal-fill" id="signalFill"></div>
+<!-- Landing Page -->
+<div class="landing-page" id="landingPage">
+	<div class="warning-box">
+		<div class="warning-icon">⚠️</div>
+		<div class="warning-title">EPILEPSY WARNING</div>
+		<div class="warning-text">
+			This application contains flashing lights, rapid color changes, visual patterns, and other effects that may trigger seizures in individuals with photosensitive epilepsy or other photosensitive conditions.
+		</div>
+		<div class="warning-details">
+			If you have a history of epilepsy, seizures, or any other health concerns, please consult with a healthcare professional before proceeding.<br><br>
+			If you experience any symptoms such as dizziness, nausea, visual disturbances, or seizures, stop viewing immediately and seek medical attention.
+		</div>
+		<div class="button-container">
+			<button class="warning-button exit" id="exitBtn">EXIT</button>
+			<button class="warning-button continue" id="continueBtn">CONTINUE</button>
 		</div>
 	</div>
 </div>
 
-<div class="controls">
-	<button id="prevBtn">◄ PREV</button>
-	<button id="nextBtn">NEXT ►</button>
-	<button id="randomBtn">RANDOM</button>
+<!-- Main Application -->
+<div class="main-app hidden" id="mainApp">
+	<div class="warning">
+		⚠️ EPILEPSY WARNING: This content contains rapid flashing lights, color changes, and visual effects that may trigger seizures in individuals with photosensitive epilepsy. Viewer discretion is advised.
+	</div>
+
+	<div class="tv-container">
+		<div class="tv-box">
+			<div class="tv-box-label">CABLE BOX</div>
+			<div class="tv-box-display" id="boxDisplay">CH 00</div>
+			<div class="tv-box-leds">
+				<div class="led power"></div>
+				<div class="led signal"></div>
+				<div class="led error"></div>
+			</div>
+		</div>
+
+		<div class="tv-screen" id="tvScreen">
+			<div class="loading-screen" id="loadingScreen">LOADING...</div>
+			<iframe class="channel-iframe" id="channelFrame" src="about:blank"></iframe>
+			<div class="noise-overlay" id="noiseOverlay"></div>
+			<div class="channel-overlay">
+				<div class="channel-display" id="channelDisplay">00</div>
+				<div class="channel-name" id="channelName">LOADING</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="remote-control">
+		<div class="remote-label">REMOTE CONTROL</div>
+		
+		<div class="remote-section">
+			<div class="remote-row">
+				<button class="remote-button channel-up" id="chUpBtn">CH ▲</button>
+			</div>
+			<div class="remote-row">
+				<button class="remote-button channel-down" id="chDownBtn">CH ▼</button>
+			</div>
+		</div>
+
+		<div class="remote-section">
+			<div class="remote-row">
+				<button class="remote-button number" data-number="0">0</button>
+				<button class="remote-button number" data-number="1">1</button>
+				<button class="remote-button number" data-number="2">2</button>
+			</div>
+			<div class="remote-row">
+				<button class="remote-button number" data-number="3">3</button>
+				<button class="remote-button number" data-number="4">4</button>
+				<button class="remote-button number" data-number="5">5</button>
+			</div>
+			<div class="remote-row">
+				<button class="remote-button number" data-number="6">6</button>
+				<button class="remote-button number" data-number="7">7</button>
+				<button class="remote-button number" data-number="8">8</button>
+			</div>
+			<div class="remote-row">
+				<button class="remote-button number" data-number="9">9</button>
+			</div>
+		</div>
+
+		<div class="remote-section">
+			<div class="remote-row">
+				<button class="remote-button volume-up" id="volUpBtn">VOL ▲</button>
+			</div>
+			<div class="remote-row">
+				<button class="remote-button volume-down" id="volDownBtn">VOL ▼</button>
+			</div>
+			<div class="volume-display">
+				VOLUME: <span id="volumeDisplay">50</span>%
+			</div>
+			<div class="volume-bar">
+				<div class="volume-fill" id="volumeFill"></div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
+const GITHUB_BASE = "https://raw.githubusercontent.com/alexanderdfox/Epilepsy_Test/main/";
+
 const channels = [
-	{ num: 0, name: "STATIC", color: "#ffffff", pattern: "static" },
-	{ num: 1, name: "SPIRAL", color: "#ff00ff", pattern: "spiral" },
-	{ num: 2, name: "STRIPES", color: "#ff0000", pattern: "stripes" },
-	{ num: 3, name: "GRID", color: "#00ff00", pattern: "grid" },
-	{ num: 4, name: "TUNNEL", color: "#0000ff", pattern: "tunnel" },
-	{ num: 5, name: "OSCILLATE", color: "#ffff00", pattern: "oscillation" },
-	{ num: 6, name: "CIRCLES", color: "#00ffff", pattern: "circles" },
-	{ num: 7, name: "RAINBOW", color: "#ff00ff", pattern: "rainbow" },
-	{ num: 8, name: "FLASH", color: "#ffffff", pattern: "flash" },
-	{ num: 9, name: "CHAOS", color: "#ff0000", pattern: "chaos" },
-	{ num: 10, name: "VOID", color: "#000000", pattern: "void" },
-	{ num: 11, name: "NOISE", color: "#888888", pattern: "noise" },
-	{ num: 12, name: "GLITCH", color: "#00ff00", pattern: "glitch" },
-	{ num: 13, name: "STROBE", color: "#ffffff", pattern: "strobe" },
-	{ num: 14, name: "SPLIT", color: "#ff0000", pattern: "split" },
-	{ num: 15, name: "WAVE", color: "#0000ff", pattern: "wave" },
-	{ num: 16, name: "ZEBRA", color: "#ffffff", pattern: "zebra" },
-	{ num: 17, name: "CHECKER", color: "#ffff00", pattern: "checker" },
-	{ num: 18, name: "RADIAL", color: "#ff00ff", pattern: "radial" },
-	{ num: 19, name: "SCAN", color: "#00ffff", pattern: "scan" },
-	{ num: 20, name: "ERROR", color: "#ff0000", pattern: "error" },
-	{ num: 21, name: "CORRUPT", color: "#00ff00", pattern: "corrupt" },
-	{ num: 22, name: "DIGITAL", color: "#0000ff", pattern: "digital" },
-	{ num: 23, name: "ANALOG", color: "#ffffff", pattern: "analog" },
-	{ num: 24, name: "SIGNAL", color: "#ffff00", pattern: "signal" },
-	{ num: 25, name: "INTERFERENCE", color: "#ff00ff", pattern: "interference" },
-	{ num: 26, name: "DISTORT", color: "#00ffff", pattern: "distort" },
-	{ num: 27, name: "FRACTAL", color: "#ff0000", pattern: "fractal" },
-	{ num: 28, name: "MATRIX", color: "#00ff00", pattern: "matrix" },
-	{ num: 29, name: "SYNTH", color: "#0000ff", pattern: "synth" },
-	{ num: 30, name: "UNKNOWN", color: "#ffffff", pattern: "unknown" },
-	{ num: 99, name: "???", color: "#ff00ff", pattern: "chaos" }
+	{ num: 0, name: "12D", url: GITHUB_BASE + "12D.html" },
+	{ num: 1, name: "3BODY", url: GITHUB_BASE + "3body.html" },
+	{ num: 2, name: "4^4", url: GITHUB_BASE + "4tothepowerof4.html" },
+	{ num: 3, name: "CAUSALITY", url: GITHUB_BASE + "causality.html" },
+	{ num: 4, name: "CRT", url: GITHUB_BASE + "crt.html" },
+	{ num: 5, name: "FOXSS", url: GITHUB_BASE + "FoxSS.html" },
+	{ num: 6, name: "OSCILLATION", url: GITHUB_BASE + "oscillation.html" },
+	{ num: 7, name: "SPIRAL", url: GITHUB_BASE + "spiral.html" },
+	{ num: 8, name: "STRING THEORY", url: GITHUB_BASE + "stringtheory.html" },
+	{ num: 9, name: "TIME TRAVEL", url: GITHUB_BASE + "timetravel.html" },
+	{ num: 10, name: "TREE", url: GITHUB_BASE + "tree.html" },
+	{ num: 11, name: "TUNNEL", url: GITHUB_BASE + "tunnel.html" }
 ];
 
 let currentChannel = 0;
-let patternOverlay = null;
-let autoChangeInterval = null;
+let currentVolume = 50;
 let isChanging = false;
+let channelInput = "";
+let channelInputTimeout = null;
 
+const landingPage = document.getElementById("landingPage");
+const mainApp = document.getElementById("mainApp");
+const continueBtn = document.getElementById("continueBtn");
+const exitBtn = document.getElementById("exitBtn");
 const tvScreen = document.getElementById("tvScreen");
+const channelFrame = document.getElementById("channelFrame");
 const channelDisplay = document.getElementById("channelDisplay");
 const channelName = document.getElementById("channelName");
-const channelNum = document.getElementById("channelNum");
-const signalFill = document.getElementById("signalFill");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const randomBtn = document.getElementById("randomBtn");
+const boxDisplay = document.getElementById("boxDisplay");
+const volumeDisplay = document.getElementById("volumeDisplay");
+const volumeFill = document.getElementById("volumeFill");
+const loadingScreen = document.getElementById("loadingScreen");
+const noiseOverlay = document.getElementById("noiseOverlay");
+const chUpBtn = document.getElementById("chUpBtn");
+const chDownBtn = document.getElementById("chDownBtn");
+const volUpBtn = document.getElementById("volUpBtn");
+const volDownBtn = document.getElementById("volDownBtn");
+const numberButtons = document.querySelectorAll(".remote-button.number");
 
-function createPattern(patternType) {
-	if (patternOverlay) {
-		patternOverlay.remove();
+const noiseTypes = ["tv-static", "digital-noise", "glitch-noise", "pixel-noise", "scanline-noise", "color-noise"];
+let currentNoiseType = "";
+
+const audio = new Audio();
+audio.loop = true;
+audio.volume = 0.5;
+audio.src = "https://upload.wikimedia.org/wikipedia/commons/4/4f/440_Hz_sine_wave.ogg";
+
+// Audio context for generating noise
+let audioContext = null;
+let audioContextInitialized = false;
+
+function initAudioContext() {
+	if (!audioContextInitialized && typeof AudioContext !== 'undefined') {
+		audioContext = new (window.AudioContext || window.webkitAudioContext)();
+		audioContextInitialized = true;
 	}
+}
 
-	patternOverlay = document.createElement("div");
-	patternOverlay.className = "pattern-overlay";
-
-	switch(patternType) {
-		case "spiral":
-			const spiral = document.createElement("div");
-			spiral.className = "spiral";
-			patternOverlay.appendChild(spiral);
-			break;
-		case "stripes":
-			const stripes = document.createElement("div");
-			stripes.className = "stripes";
-			patternOverlay.appendChild(stripes);
-			break;
-		case "grid":
-			const grid = document.createElement("div");
-			grid.className = "grid";
-			patternOverlay.appendChild(grid);
-			break;
-		case "tunnel":
-			const tunnel = document.createElement("div");
-			tunnel.className = "tunnel";
-			patternOverlay.appendChild(tunnel);
-			break;
-		case "oscillation":
-			const oscillation = document.createElement("div");
-			oscillation.className = "oscillation";
-			patternOverlay.appendChild(oscillation);
-			break;
-		case "static":
-			const staticEl = document.createElement("div");
-			staticEl.className = "static";
-			patternOverlay.appendChild(staticEl);
-			break;
-		case "circles":
-			const circlesContainer = document.createElement("div");
-			circlesContainer.className = "circles";
-			for (let i = 0; i < 20; i++) {
-				const circle = document.createElement("div");
-				circle.className = "circle";
-				circle.style.width = (Math.random() * 200 + 50) + "px";
-				circle.style.height = circle.style.width;
-				circle.style.left = Math.random() * 100 + "%";
-				circle.style.top = Math.random() * 100 + "%";
-				circle.style.borderColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-				circle.style.animationDelay = Math.random() * 0.5 + "s";
-				circlesContainer.appendChild(circle);
-			}
-			patternOverlay.appendChild(circlesContainer);
-			break;
-		case "flash":
-			patternOverlay.style.background = "#ffffff";
-			patternOverlay.style.animation = "flash 0.1s infinite";
-			break;
-		case "strobe":
-			patternOverlay.style.background = "#000000";
-			patternOverlay.style.animation = "flash 0.05s infinite";
-			break;
-		case "chaos":
-			patternOverlay.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-			patternOverlay.style.animation = "flash 0.03s infinite";
-			break;
-		default:
-			patternOverlay.style.background = "transparent";
+// Generate white noise
+function playWhiteNoise(duration = 200) {
+	if (!audioContext) initAudioContext();
+	if (!audioContext) return;
+	
+	const bufferSize = audioContext.sampleRate * (duration / 1000);
+	const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+	const data = buffer.getChannelData(0);
+	
+	for (let i = 0; i < bufferSize; i++) {
+		data[i] = Math.random() * 2 - 1;
 	}
+	
+	const source = audioContext.createBufferSource();
+	const gainNode = audioContext.createGain();
+	
+	source.buffer = buffer;
+	gainNode.gain.value = Math.random() * 0.3 + 0.1;
+	
+	source.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+	
+	source.start();
+	source.stop(audioContext.currentTime + duration / 1000);
+}
 
-	tvScreen.appendChild(patternOverlay);
+// Generate static noise
+function playStaticNoise(duration = 300) {
+	if (!audioContext) initAudioContext();
+	if (!audioContext) return;
+	
+	const bufferSize = audioContext.sampleRate * (duration / 1000);
+	const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+	const data = buffer.getChannelData(0);
+	
+	for (let i = 0; i < bufferSize; i++) {
+		data[i] = (Math.random() * 2 - 1) * (Math.random() > 0.7 ? 1 : 0.3);
+	}
+	
+	const source = audioContext.createBufferSource();
+	const gainNode = audioContext.createGain();
+	const filter = audioContext.createBiquadFilter();
+	
+	source.buffer = buffer;
+	filter.type = 'highpass';
+	filter.frequency.value = 1000;
+	gainNode.gain.value = Math.random() * 0.2 + 0.1;
+	
+	source.connect(filter);
+	filter.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+	
+	source.start();
+	source.stop(audioContext.currentTime + duration / 1000);
+}
+
+// Generate beep
+function playBeep(frequency = 440, duration = 100) {
+	if (!audioContext) initAudioContext();
+	if (!audioContext) return;
+	
+	const oscillator = audioContext.createOscillator();
+	const gainNode = audioContext.createGain();
+	
+	oscillator.type = 'square';
+	oscillator.frequency.value = frequency;
+	gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+	gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+	
+	oscillator.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+	
+	oscillator.start();
+	oscillator.stop(audioContext.currentTime + duration / 1000);
+}
+
+// Generate glitch sound
+function playGlitchSound(duration = 150) {
+	if (!audioContext) initAudioContext();
+	if (!audioContext) return;
+	
+	const bufferSize = audioContext.sampleRate * (duration / 1000);
+	const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+	const data = buffer.getChannelData(0);
+	
+	for (let i = 0; i < bufferSize; i++) {
+		const t = i / audioContext.sampleRate;
+		data[i] = Math.sin(t * 2 * Math.PI * (440 + Math.random() * 200)) * 
+		          (Math.random() > 0.5 ? 1 : -1) * 
+		          (Math.random() * 0.5 + 0.3);
+	}
+	
+	const source = audioContext.createBufferSource();
+	const gainNode = audioContext.createGain();
+	
+	source.buffer = buffer;
+	gainNode.gain.value = Math.random() * 0.2 + 0.1;
+	
+	source.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+	
+	source.start();
+	source.stop(audioContext.currentTime + duration / 1000);
+}
+
+// Generate buzz
+function playBuzz(duration = 250) {
+	if (!audioContext) initAudioContext();
+	if (!audioContext) return;
+	
+	const oscillator = audioContext.createOscillator();
+	const gainNode = audioContext.createGain();
+	const filter = audioContext.createBiquadFilter();
+	
+	oscillator.type = 'sawtooth';
+	oscillator.frequency.value = 60 + Math.random() * 20;
+	filter.type = 'lowpass';
+	filter.frequency.value = 200;
+	gainNode.gain.value = Math.random() * 0.15 + 0.05;
+	
+	oscillator.connect(filter);
+	filter.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+	
+	oscillator.start();
+	oscillator.stop(audioContext.currentTime + duration / 1000);
+}
+
+// Generate click/pop
+function playClick() {
+	if (!audioContext) initAudioContext();
+	if (!audioContext) return;
+	
+	const bufferSize = audioContext.sampleRate * 0.01;
+	const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+	const data = buffer.getChannelData(0);
+	
+	for (let i = 0; i < bufferSize; i++) {
+		data[i] = Math.random() * 2 - 1;
+	}
+	
+	const source = audioContext.createBufferSource();
+	const gainNode = audioContext.createGain();
+	
+	source.buffer = buffer;
+	gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+	gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.01);
+	
+	source.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+	
+	source.start();
+	source.stop(audioContext.currentTime + 0.01);
+}
+
+// Random sound noise generator
+function playRandomSoundNoise() {
+	if (Math.random() < 0.4) { // 40% chance to play noise
+		const soundType = Math.floor(Math.random() * 6);
+		
+		switch(soundType) {
+			case 0:
+				playWhiteNoise(Math.random() * 300 + 100);
+				break;
+			case 1:
+				playStaticNoise(Math.random() * 400 + 200);
+				break;
+			case 2:
+				playBeep(440 + Math.random() * 200, Math.random() * 150 + 50);
+				break;
+			case 3:
+				playGlitchSound(Math.random() * 200 + 100);
+				break;
+			case 4:
+				playBuzz(Math.random() * 300 + 150);
+				break;
+			case 5:
+				playClick();
+				break;
+		}
+	}
+}
+
+// Landing page handlers
+continueBtn.addEventListener("click", () => {
+	landingPage.classList.add("hidden");
+	mainApp.classList.remove("hidden");
+	audio.play().catch(() => {});
+	initAudioContext(); // Initialize audio context on user interaction
+	changeChannel(0, true);
+});
+
+exitBtn.addEventListener("click", () => {
+	if (window.history.length > 1) {
+		window.history.back();
+	} else {
+		window.location.href = "https://www.epilepsy.com/";
+	}
+});
+
+function updateVolume(vol) {
+	currentVolume = Math.max(0, Math.min(100, vol));
+	
+	// Chaotic volume behavior
+	let actualVol = currentVolume;
+	if (Math.random() < 0.2) actualVol = 100 - actualVol;
+	if (Math.random() < 0.15) actualVol = Math.random() * 100;
+	if (Math.random() < 0.1) actualVol = 0;
+	if (Math.random() < 0.1) actualVol = 100;
+	
+	audio.volume = actualVol / 100;
+	
+	// Display might lie
+	if (Math.random() < 0.3) {
+		volumeDisplay.textContent = Math.floor(Math.random() * 100);
+	} else {
+		volumeDisplay.textContent = Math.floor(currentVolume);
+	}
+	
+	volumeFill.style.width = actualVol + "%";
 }
 
 function changeChannel(newChannel, instant = false) {
@@ -408,44 +893,67 @@ function changeChannel(newChannel, instant = false) {
 	const channel = channels[newChannel];
 	if (!channel) return;
 
+	// Show loading screen
+	loadingScreen.style.display = "flex";
+
 	// Chaotic channel number display
 	if (Math.random() < 0.3) {
-		channelDisplay.textContent = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+		const fakeNum = Math.floor(Math.random() * 100);
+		channelDisplay.textContent = String(fakeNum).padStart(2, '0');
+		boxDisplay.textContent = `CH ${String(fakeNum).padStart(2, '0')}`;
 		setTimeout(() => {
 			channelDisplay.textContent = String(channel.num).padStart(2, '0');
+			boxDisplay.textContent = `CH ${String(channel.num).padStart(2, '0')}`;
 		}, 100);
 	} else {
 		channelDisplay.textContent = String(channel.num).padStart(2, '0');
+		boxDisplay.textContent = `CH ${String(channel.num).padStart(2, '0')}`;
 	}
 
 	channelName.textContent = channel.name;
-	channelNum.textContent = String(channel.num).padStart(2, '0');
 
 	// Rapid color flashing during transition
 	if (!instant) {
 		const flashCount = 10;
 		let flashIndex = 0;
 		const flashInterval = setInterval(() => {
-			document.body.style.background = `hsl(${Math.random() * 360}, 100%, ${Math.random() * 50}%)`;
+			tvScreen.style.background = `hsl(${Math.random() * 360}, 100%, ${Math.random() * 50}%)`;
 			channelDisplay.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
 			flashIndex++;
 			if (flashIndex >= flashCount) {
 				clearInterval(flashInterval);
-				document.body.style.background = channel.color;
-				channelDisplay.style.color = channel.color;
-				createPattern(channel.pattern);
-				isChanging = false;
+				tvScreen.style.background = "#000";
+				channelDisplay.style.color = "#fff";
 			}
 		}, 50);
-	} else {
-		document.body.style.background = channel.color;
-		channelDisplay.style.color = channel.color;
-		createPattern(channel.pattern);
-		isChanging = false;
 	}
 
-	// Random signal strength
-	signalFill.style.width = (Math.random() * 100) + "%";
+	// Sometimes add noise during channel change
+	if (Math.random() < 0.5) {
+		const noiseType = noiseTypes[Math.floor(Math.random() * noiseTypes.length)];
+		noiseOverlay.className = `noise-overlay ${noiseType} active`;
+		noiseOverlay.style.opacity = Math.random() * 0.6 + 0.3;
+		
+		setTimeout(() => {
+			if (Math.random() < 0.7) {
+				noiseOverlay.classList.remove("active");
+			}
+		}, Math.random() * 1000 + 300);
+	}
+	
+	// Sometimes add sound noise during channel change
+	if (Math.random() < 0.6) {
+		playRandomSoundNoise();
+	}
+
+	// Load the channel iframe
+	channelFrame.src = channel.url;
+	
+	// Hide loading screen after a delay (or when iframe loads)
+	setTimeout(() => {
+		loadingScreen.style.display = "none";
+		isChanging = false;
+	}, 1000);
 
 	// Sometimes change to wrong channel
 	if (Math.random() < 0.15) {
@@ -467,87 +975,202 @@ function changeChannel(newChannel, instant = false) {
 }
 
 function nextChannel() {
-	currentChannel = (currentChannel + 1) % channels.length;
-	changeChannel(currentChannel);
+	if (Math.random() < 0.3) {
+		prevChannel(); // Sometimes go backward instead
+	} else {
+		currentChannel = (currentChannel + 1) % channels.length;
+		changeChannel(currentChannel);
+	}
 }
 
 function prevChannel() {
-	currentChannel = (currentChannel - 1 + channels.length) % channels.length;
-	changeChannel(currentChannel);
-}
-
-function randomChannel() {
-	const newChannel = Math.floor(Math.random() * channels.length);
-	currentChannel = newChannel;
-	changeChannel(newChannel);
-}
-
-// Button event listeners with chaos
-prevBtn.addEventListener("click", () => {
 	if (Math.random() < 0.3) {
 		nextChannel(); // Sometimes go forward instead
 	} else {
-		prevChannel();
+		currentChannel = (currentChannel - 1 + channels.length) % channels.length;
+		changeChannel(currentChannel);
 	}
-});
+}
 
-nextBtn.addEventListener("click", () => {
+function goToChannel(num) {
+	const channelIndex = channels.findIndex(c => c.num === num);
+	if (channelIndex !== -1) {
+		currentChannel = channelIndex;
+		changeChannel(currentChannel);
+	} else {
+		// Channel doesn't exist - show error
+		boxDisplay.textContent = "ERR";
+		setTimeout(() => {
+			boxDisplay.textContent = `CH ${String(channels[currentChannel].num).padStart(2, '0')}`;
+		}, 1000);
+	}
+}
+
+// Channel up button
+chUpBtn.addEventListener("click", () => {
+	// Sometimes add noise on button press
 	if (Math.random() < 0.3) {
-		prevChannel(); // Sometimes go backward instead
+		const noiseType = noiseTypes[Math.floor(Math.random() * noiseTypes.length)];
+		noiseOverlay.className = `noise-overlay ${noiseType} active`;
+		noiseOverlay.style.opacity = Math.random() * 0.4 + 0.3;
+		setTimeout(() => {
+			if (Math.random() < 0.6) {
+				noiseOverlay.classList.remove("active");
+			}
+		}, Math.random() * 800 + 200);
+	}
+	
+	// Sometimes add sound noise on button press
+	if (Math.random() < 0.4) {
+		playRandomSoundNoise();
+	}
+	
+	if (Math.random() < 0.2) {
+		prevChannel(); // Sometimes go down instead
 	} else {
 		nextChannel();
 	}
 });
 
-randomBtn.addEventListener("click", () => {
+// Channel down button
+chDownBtn.addEventListener("click", () => {
+	// Sometimes add noise on button press
+	if (Math.random() < 0.3) {
+		const noiseType = noiseTypes[Math.floor(Math.random() * noiseTypes.length)];
+		noiseOverlay.className = `noise-overlay ${noiseType} active`;
+		noiseOverlay.style.opacity = Math.random() * 0.4 + 0.3;
+		setTimeout(() => {
+			if (Math.random() < 0.6) {
+				noiseOverlay.classList.remove("active");
+			}
+		}, Math.random() * 800 + 200);
+	}
+	
+	// Sometimes add sound noise on button press
+	if (Math.random() < 0.4) {
+		playRandomSoundNoise();
+	}
+	
 	if (Math.random() < 0.2) {
-		// Sometimes change multiple times rapidly
-		for (let i = 0; i < 5; i++) {
-			setTimeout(() => randomChannel(), i * 100);
-		}
+		nextChannel(); // Sometimes go up instead
 	} else {
-		randomChannel();
+		prevChannel();
 	}
 });
 
-// Keyboard controls (also chaotic)
+// Number buttons
+numberButtons.forEach(btn => {
+	btn.addEventListener("click", () => {
+		// Sometimes add sound noise on number press
+		if (Math.random() < 0.3) {
+			playClick();
+		}
+		
+		const num = parseInt(btn.dataset.number);
+		channelInput += num;
+		
+		clearTimeout(channelInputTimeout);
+		channelInputTimeout = setTimeout(() => {
+			if (channelInput.length > 0) {
+				const channelNum = parseInt(channelInput);
+				// Sometimes ignore input
+				if (Math.random() < 0.2) {
+					boxDisplay.textContent = "IGN";
+					setTimeout(() => {
+						boxDisplay.textContent = `CH ${String(channels[currentChannel].num).padStart(2, '0')}`;
+					}, 500);
+				} else {
+					goToChannel(channelNum);
+				}
+				channelInput = "";
+			}
+		}, 1000);
+	});
+});
+
+// Volume up button
+volUpBtn.addEventListener("click", () => {
+	// Sometimes add noise on volume change
+	if (Math.random() < 0.25) {
+		const noiseType = noiseTypes[Math.floor(Math.random() * noiseTypes.length)];
+		noiseOverlay.className = `noise-overlay ${noiseType} active`;
+		noiseOverlay.style.opacity = Math.random() * 0.3 + 0.2;
+		setTimeout(() => {
+			if (Math.random() < 0.7) {
+				noiseOverlay.classList.remove("active");
+			}
+		}, Math.random() * 600 + 200);
+	}
+	
+	// Sometimes add sound noise on volume change
+	if (Math.random() < 0.35) {
+		playRandomSoundNoise();
+	}
+	
+	if (Math.random() < 0.2) {
+		updateVolume(currentVolume - 10); // Sometimes go down instead
+	} else {
+		updateVolume(currentVolume + 10);
+	}
+});
+
+// Volume down button
+volDownBtn.addEventListener("click", () => {
+	// Sometimes add noise on volume change
+	if (Math.random() < 0.25) {
+		const noiseType = noiseTypes[Math.floor(Math.random() * noiseTypes.length)];
+		noiseOverlay.className = `noise-overlay ${noiseType} active`;
+		noiseOverlay.style.opacity = Math.random() * 0.3 + 0.2;
+		setTimeout(() => {
+			if (Math.random() < 0.7) {
+				noiseOverlay.classList.remove("active");
+			}
+		}, Math.random() * 600 + 200);
+	}
+	
+	// Sometimes add sound noise on volume change
+	if (Math.random() < 0.35) {
+		playRandomSoundNoise();
+	}
+	
+	if (Math.random() < 0.2) {
+		updateVolume(currentVolume + 10); // Sometimes go up instead
+	} else {
+		updateVolume(currentVolume - 10);
+	}
+});
+
+// Keyboard controls
 document.addEventListener("keydown", (e) => {
-	if (e.key === "ArrowRight" || e.key === "ArrowUp") {
-		if (Math.random() < 0.2) {
-			prevChannel();
-		} else {
-			nextChannel();
-		}
-	} else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
-		if (Math.random() < 0.2) {
-			nextChannel();
-		} else {
-			prevChannel();
-		}
-	} else if (e.key === " " || e.key === "r") {
-		randomChannel();
+	if (e.key === "ArrowUp" || e.key === "+") {
+		nextChannel();
+	} else if (e.key === "ArrowDown" || e.key === "-") {
+		prevChannel();
+	} else if (e.key >= "0" && e.key <= "9") {
+		const num = parseInt(e.key);
+		channelInput += num;
+		clearTimeout(channelInputTimeout);
+		channelInputTimeout = setTimeout(() => {
+			if (channelInput.length > 0) {
+				goToChannel(parseInt(channelInput));
+				channelInput = "";
+			}
+		}, 1000);
+	} else if (e.key === "ArrowRight" || e.key === "=") {
+		updateVolume(currentVolume + 5);
+	} else if (e.key === "ArrowLeft" || e.key === "_") {
+		updateVolume(currentVolume - 5);
 	}
 });
 
 // Auto-change channels randomly
 setInterval(() => {
 	if (Math.random() < 0.1 && !isChanging) {
-		randomChannel();
+		const randomChannel = Math.floor(Math.random() * channels.length);
+		currentChannel = randomChannel;
+		changeChannel(randomChannel);
 	}
 }, 2000);
-
-// Continuous background color flashing
-setInterval(() => {
-	if (!isChanging && Math.random() < 0.3) {
-		document.body.style.background = `hsl(${Math.random() * 360}, 100%, ${Math.random() * 30 + 10}%)`;
-		setTimeout(() => {
-			const channel = channels[currentChannel];
-			if (channel) {
-				document.body.style.background = channel.color;
-			}
-		}, 100);
-	}
-}, 500);
 
 // Random screen shake
 setInterval(() => {
@@ -559,18 +1182,66 @@ setInterval(() => {
 	}
 }, 1000);
 
-// Initialize
-changeChannel(0, true);
+// Random volume changes
+setInterval(() => {
+	if (Math.random() < 0.15) {
+		updateVolume(currentVolume + (Math.random() - 0.5) * 20);
+		// Sometimes add sound noise on random volume change
+		if (Math.random() < 0.4) {
+			playRandomSoundNoise();
+		}
+	}
+}, 3000);
 
 // Sometimes the channel display lies
 setInterval(() => {
 	if (Math.random() < 0.1) {
-		channelDisplay.textContent = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+		const fakeNum = Math.floor(Math.random() * 100);
+		channelDisplay.textContent = String(fakeNum).padStart(2, '0');
+		boxDisplay.textContent = `CH ${String(fakeNum).padStart(2, '0')}`;
 		setTimeout(() => {
 			channelDisplay.textContent = String(channels[currentChannel].num).padStart(2, '0');
+			boxDisplay.textContent = `CH ${String(channels[currentChannel].num).padStart(2, '0')}`;
 		}, 300);
 	}
 }, 3000);
+
+// Random noise generator
+function showRandomNoise() {
+	if (Math.random() < 0.4) { // 40% chance to show noise
+		const noiseType = noiseTypes[Math.floor(Math.random() * noiseTypes.length)];
+		noiseOverlay.className = `noise-overlay ${noiseType} active`;
+		currentNoiseType = noiseType;
+		
+		// Random opacity
+		const opacity = Math.random() * 0.5 + 0.2; // 0.2 to 0.7
+		noiseOverlay.style.opacity = opacity;
+		
+		// Random duration
+		const duration = Math.random() * 2000 + 500; // 500ms to 2500ms
+		setTimeout(() => {
+			noiseOverlay.classList.remove("active");
+			currentNoiseType = "";
+		}, duration);
+	}
+}
+
+// Continuous random noise
+setInterval(() => {
+	if (Math.random() < 0.3 && !noiseOverlay.classList.contains("active")) {
+		showRandomNoise();
+	}
+}, 1500);
+
+// Continuous random sound noise
+setInterval(() => {
+	if (Math.random() < 0.25) {
+		playRandomSoundNoise();
+	}
+}, 2000);
+
+// Initialize volume
+updateVolume(50);
 </script>
 
 </body>
